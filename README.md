@@ -1,5 +1,5 @@
 <div align="center" style="text-align: center;">
-    <h1>dragonwell8</h1>
+    <h1>Git</h1>
     <h3>龙蜥 Anolisos git docker 镜像</h3>
     <a target="_blank" href="https://github.com/996icu/996.ICU/blob/master/LICENSE">
         <img alt="License-Anti" src="https://img.shields.io/badge/License-Anti 996-blue.svg">
@@ -92,8 +92,8 @@
     <img alt="total lines" src="https://tokei.rs/b1/github/xuxiaowei-com-cn/git">
   </a>
 
-  <a target="_blank" href="https://hub.docker.com/r/xuxiaoweicomcn/dragonwell8">
-    <img alt="Docker Image Version (latest semver)" src="https://img.shields.io/docker/v/xuxiaoweicomcn/dragonwell8">
+  <a target="_blank" href="https://hub.docker.com/r/xuxiaoweicomcn/git">
+    <img alt="Docker Image Version (latest semver)" src="https://img.shields.io/docker/v/xuxiaoweicomcn/git">
   </a>
 
   <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0">
