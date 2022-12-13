@@ -10,13 +10,13 @@ MAINTAINER 徐晓伟 xuxiaowei@xuxiaowei.com.cn
 WORKDIR /home/git
 
 # 添加 git 源码
-ADD v2.38.2.tar.gz .
+ADD v2.39.0.tar.gz .
 
 # 查看文件
 RUN ls
 
 # 调整工作空间
-WORKDIR /home/git/git-2.38.2
+WORKDIR /home/git/git-2.39.0
 
 # 查看文件
 RUN ls
@@ -43,10 +43,10 @@ RUN yum -y install diffutils
 # 编译
 RUN make
 # 编译安装到指定的文件夹下
-RUN make DESTDIR=/git-2.38.2 install
+RUN make DESTDIR=/git-2.39.0 install
 
 # 执行编译安装后的可执行文件
-RUN /git-2.38.2/root/bin/git --version
+RUN /git-2.39.0/root/bin/git --version
 
 
 # 第二阶段，使用第一阶段编译构建好的可执行文件来构建 git 镜像
@@ -56,8 +56,8 @@ FROM openanolis/anolisos:8.6
 WORKDIR /home
 
 # 从第一阶段中复制构建好的可执行文件
-COPY --from=git-make /git-2.38.2/root/bin/ /usr/bin/
-COPY --from=git-make /git-2.38.2/root/libexec/ /usr/libexec/
-COPY --from=git-make /git-2.38.2/root/share/ /usr/share/
+COPY --from=git-make /git-2.39.0/root/bin/ /usr/bin/
+COPY --from=git-make /git-2.39.0/root/libexec/ /usr/libexec/
+COPY --from=git-make /git-2.39.0/root/share/ /usr/share/
 
 RUN git --version
