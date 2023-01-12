@@ -7,13 +7,13 @@ docker-build:
   services:
     - docker:dind
   script:
-    - wget https://github.com/git/git/archive/refs/tags/v2.39.0.tar.gz
-    - docker build -t git:v2.39.0 .
+    - wget https://github.com/git/git/archive/refs/tags/v2.37.4.tar.gz
+    - docker build -t git:v2.37.4 .
     - docker images
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - docker tag git:v2.39.0 $DOCKER_USERNAME/git:v2.39.0
+    - docker tag git:v2.37.4 $DOCKER_USERNAME/git:v2.37.4
     - docker images
-    - docker push $DOCKER_USERNAME/git:v2.39.0
+    - docker push $DOCKER_USERNAME/git:v2.37.4
   # https://docs.gitlab.com/ee/ci/yaml/index.html#rules
   rules:
     - if: $CI_COMMIT_TAG
