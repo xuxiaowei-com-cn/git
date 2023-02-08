@@ -1,19 +1,34 @@
 stages:
+  - docker-build-before
   - docker-build
+
+docker-build-before:
+  stage: docker-build-before
+  image: python:latest
+  script:
+    - pip install requests
+    - python tags.py
+    - ls
+  artifacts:
+    paths:
+      - tags.sh
+      - Dockerfile
 
 docker-build:
   stage: docker-build
   image: docker:latest
   services:
     - docker:dind
+  needs:
+    - job: docker-build-before
+      artifacts: true
   script:
-    - wget https://github.com/git/git/archive/refs/tags/v2.35.5.tar.gz
-    - docker build -t git:v2.35.5 .
     - docker images
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - docker tag git:v2.35.5 $DOCKER_USERNAME/git:v2.35.5
+    - ls
+    - chmod +x tags.sh
+    - chmod +x tags_push.sh
+    - ./tags.sh
     - docker images
-    - docker push $DOCKER_USERNAME/git:v2.35.5
-  # https://docs.gitlab.com/ee/ci/yaml/index.html#rules
-  rules:
-    - if: $CI_COMMIT_TAG
+    - docker images "$DOCKER_USERNAME"
+    - ./tags_push.sh
