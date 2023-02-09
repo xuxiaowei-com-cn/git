@@ -12,8 +12,6 @@ print(f'page={page}')
 
 if num is not None:
     num = int(num)
-else:
-    num = 0
 if page is not None:
     page = int(page)
     tags_url += f'?page={page}'
@@ -23,22 +21,25 @@ resp = requests.get(tags_url)
 resp_json = resp.json()
 
 file_name = 'tags.sh'
-dockerfile_name = 'Dockerfile'
 if os.path.exists(file_name):
     os.remove(file_name)
-if os.path.exists(dockerfile_name):
-    os.remove(dockerfile_name)
+
 file = open(file_name, 'w')
-dockerfile = open(dockerfile_name, 'w')
 
 i = 0
 for tag in resp_json:
-    if i == num:
-        file.write(f"wget https://github.com/git/git/archive/refs/tags/{tag['name']}.tar.gz\n")
-        file.write(f"docker build -t $DOCKER_USERNAME/git:{tag['name']} .\n")
-        file.write("docker images")
+    i = i + 1
+    dockerfile_name = f'Dockerfile{i}'
+    file.write(f"wget https://github.com/git/git/archive/refs/tags/{tag['name']}.tar.gz\n")
+    file.write(f"cp {dockerfile_name} Dockerfile\n")
+    file.write(f"docker build -t $DOCKER_USERNAME/git:{tag['name']} .\n")
+    file.write("docker images\n")
 
-        dockerfile.write(f"""
+    if os.path.exists(dockerfile_name):
+        os.remove(dockerfile_name)
+    dockerfile = open(dockerfile_name, 'w')
+
+    dockerfile.write(f"""
         # 第一阶段：编译 git 源码
 
         # 选择运行时基础镜像
@@ -103,6 +104,6 @@ for tag in resp_json:
         
         RUN git --version
 
-        """)
+    """)
+    if num is not None and i >= num:
         break
-    i = i + 1
